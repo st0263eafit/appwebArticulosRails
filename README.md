@@ -84,11 +84,11 @@
 
   * add 'create' action to ArticlesController:
 
-      class ArticlesController < ApplicationController
-        def new
-        end
+        class ArticlesController < ApplicationController
+          def new
+          end
 
-        def create
-          render plain: params[:article].inspect
-        end
-      end      
+          def create
+            render plain: params[:article].inspect
+          end
+        end      
