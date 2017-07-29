@@ -36,4 +36,9 @@ Open browser: http://localhost:3000
 3. Main page: "Hello World"
 
         $ rails generate controller Welcome index
+        
+        edit: 
+        app/views/welcome/index.html.erb 
+        config/routes.rb
+                
                
