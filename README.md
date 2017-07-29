@@ -320,4 +320,27 @@ run:
 
       ...
       <%= link_to 'Edit', edit_article_path(@article) %> |
-      <%= link_to 'Back', articles_path %>                      
+      <%= link_to 'Back', articles_path %>
+
+# 14. delete an Article
+
+Route:
+
+      DELETE /articles/:id(.:format)      articles#destroy  
+
+Controller: app/controllers/articles_controller.rb
+
+      def destroy
+        @article = Article.find(params[:id])
+        @article.destroy
+
+        redirect_to articles_path
+      end                                      
+
+View: add 'delete' link to app/views/articles/index.html.erb
+
+      ...
+      <td><%= link_to 'Edit', edit_article_path(article) %></td>
+      <td><%= link_to 'Delete', article_path(article), method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+      ...
