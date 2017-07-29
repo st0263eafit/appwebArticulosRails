@@ -54,7 +54,7 @@ edit: config/routes.rb
         end
 
 run:    
-        $ rails routes
+          $ rails routes
 
 output:
 
