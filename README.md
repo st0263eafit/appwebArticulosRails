@@ -69,3 +69,10 @@ output:
              PUT    /articles/:id(.:format)      articles#update
              DELETE /articles/:id(.:format)      articles#destroy
         root GET    /                            welcome#index
+
+5. Generate controller for 'articles' REST Services
+
+        $ rails generate controller Articles
+
+modify: app/controllers/articles_controller.rb
+create: app/views/articles/new.html.erb        
