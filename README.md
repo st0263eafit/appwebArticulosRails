@@ -91,4 +91,8 @@
           def create
             render plain: params[:article].inspect
           end
-        end      
+        end     
+
+# 7. Creating the Article model
+
+      $ rails generate model Article title:string text:text 
