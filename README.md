@@ -25,6 +25,6 @@ Things you may want to cover:
 
 1. Creating the Article Application
 
-    $ rails article blog
+        $ rails article blog
     
     
