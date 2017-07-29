@@ -76,13 +76,13 @@
       </p>
       <% end %>
 
-  * modify: app/views/articles/new.html.erb:
+* modify: app/views/articles/new.html.erb:
 
       <%= form_for :article, url: articles_path do |f| %>
 
       POST method and require 'create' action.
 
-  * add 'create' action to ArticlesController:
+* add 'create' action to ArticlesController:
 
         class ArticlesController < ApplicationController
           def new
