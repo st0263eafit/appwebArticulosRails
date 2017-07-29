@@ -1,17 +1,17 @@
 # rubyArticulosEM
 ## By: Edwin Montoya - emontoya@eafit.edu.co
 
-1. Creating the Article Application
+#1. Creating the Article Application
 
         $ rails article blog
 
-2. Starting up the WebApp Server
+#2. Starting up the WebApp Server
 
         $ rails server
 
 * Open browser: http://localhost:3000
 
-3. Main page: "Hello World"
+#3. Main page: "Hello World"
 
         $ rails generate controller Welcome index
 
@@ -19,7 +19,7 @@
         app/views/welcome/index.html.erb
         config/routes.rb
 
-4. Create REST routes        
+#4. Create REST routes        
 
 * edit: config/routes.rb
 
@@ -48,7 +48,7 @@
              DELETE /articles/:id(.:format)      articles#destroy
         root GET    /                            welcome#index
 
-5. Generate controller for 'articles' REST Services
+#5. Generate controller for 'articles' REST Services
 
         $ rails generate controller Articles
 
@@ -57,7 +57,7 @@
 
 * run: http://localhost:3000/articles/new    
 
-6. Create a FORM HTML to enter data for an article
+#6. Create a FORM HTML to enter data for an article
 
 * edit: app/views/articles/new.html.erb:
 
