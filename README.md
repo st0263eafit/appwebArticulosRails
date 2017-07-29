@@ -95,4 +95,17 @@
 
 # 7. Creating the Article model
 
-      $ rails generate model Article title:string text:text 
+      $ rails generate model Article title:string text:text
+
+* look db/migrate/YYYYMMDDHHMMSS_create_articles.rb:
+
+      class CreateArticles < ActiveRecord::Migration[5.0]
+        def change
+          create_table :articles do |t|
+            t.string :title
+            t.text :text
+
+            t.timestamps
+          end
+        end
+      end
