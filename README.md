@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+1. Creating the Article Application
+
+    $ rails article blog
+    
+    
