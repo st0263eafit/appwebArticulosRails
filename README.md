@@ -53,4 +53,42 @@
         $ rails generate controller Articles
 
 * modify: app/controllers/articles_controller.rb
-* create: app/views/articles/new.html.erb        
+* create: app/views/articles/new.html.erb    
+
+* run: http://localhost:3000/articles/new    
+
+6. Create a FORM HTML to enter data for an article
+
+* edit: app/views/articles/new.html.erb:
+
+      <%= form_for :article do |f| %>
+      <p>
+        <%= f.label :title %><br>
+        <%= f.text_field :title %>
+      </p>
+
+      <p>
+        <%= f.label :text %><br>
+        <%= f.text_area :text %>
+      </p>
+      <p>
+        <%= f.submit %>
+      </p>
+      <% end %>
+
+  * modify: app/views/articles/new.html.erb:
+
+      <%= form_for :article, url: articles_path do |f| %>
+
+      POST method and require 'create' action.
+
+  * add 'create' action to ArticlesController:
+
+      class ArticlesController < ApplicationController
+        def new
+        end
+
+        def create
+          render plain: params[:article].inspect
+        end
+      end      
