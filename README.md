@@ -151,13 +151,13 @@ run:
 
       article GET    /articles/:id(.:format)      articles#show
 
-* add action in app/controllers/articles_controller.rb
+* Controller: add action in app/controllers/articles_controller.rb
 
       def show
         @article = Article.find(params[:id])
       end
 
-* create a new file app/views/articles/show.html.erb
+* View: create a new file app/views/articles/show.html.erb
 
       <p>
         <strong>Title:</strong>
