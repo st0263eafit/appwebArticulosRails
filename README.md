@@ -144,3 +144,28 @@ run:
         def article_params
           params.require(:article).permit(:title, :text)
         end      
+
+# 10. Showing Articles
+
+* Route:
+
+      article GET    /articles/:id(.:format)      articles#show
+
+* add action in app/controllers/articles_controller.rb
+
+      def show
+        @article = Article.find(params[:id])
+      end
+
+* create a new file app/views/articles/show.html.erb
+
+
+      <p>
+        <strong>Title:</strong>
+        <%= @article.title %>
+      </p>
+
+      <p>
+        <strong>Text:</strong>
+        <%= @article.text %>
+      </p>            
