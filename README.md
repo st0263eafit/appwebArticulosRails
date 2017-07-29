@@ -32,7 +32,7 @@
         end
 
 * run:    
-          $ rails routes
+        $ rails routes
 
 * output:
 
