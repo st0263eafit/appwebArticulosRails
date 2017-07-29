@@ -233,4 +233,91 @@ run:
         <%= @article.text %>
       </p>
 
-      <%= link_to 'Back', articles_path %>      
+      <%= link_to 'Back', articles_path %>   
+
+# 13. Updating Articles     
+
+* Route:     
+
+      article GET    /articles/:id(.:format)      articles#show
+
+* Controller: edit action to the ArticlesController ->  app/controllers/articles_controller.rb
+
+      def edit
+      @article = Article.find(params[:id])
+      end
+
+* View: new page: app/views/articles/edit.html.erb
+
+      <h1>Edit article</h1>
+
+      <%= form_for(@article) do |f| %>
+
+        <% if @article.errors.any? %>
+          <div id="error_explanation">
+            <h2>
+              <%= pluralize(@article.errors.count, "error") %> prohibited
+              this article from being saved:
+            </h2>
+            <ul>
+              <% @article.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <p>
+          <%= f.label :title %><br>
+          <%= f.text_field :title %>
+        </p>
+
+        <p>
+          <%= f.label :text %><br>
+          <%= f.text_area :text %>
+        </p>
+
+        <p>
+          <%= f.submit %>
+        </p>
+
+      <% end %>
+
+      <%= link_to 'Back', articles_path %>  
+
+* Controller: update action in app/controllers/articles_controller.rb
+
+      def update
+        @article = Article.find(params[:id])
+
+        if @article.update(article_params)
+          redirect_to @article
+        else
+          render 'edit'
+        end
+      end
+
+* View: add link 'edit' in app/views/articles/index.html.erb
+
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Text</th>
+          <th colspan="2"></th>
+        </tr>
+
+        <% @articles.each do |article| %>
+          <tr>
+            <td><%= article.title %></td>
+            <td><%= article.text %></td>
+            <td><%= link_to 'Show', article_path(article) %></td>
+            <td><%= link_to 'Edit', edit_article_path(article) %></td>
+          </tr>
+        <% end %>
+      </table>
+
+* View: add link 'edit' in app/views/articles/show.html.erb:
+
+      ...
+      <%= link_to 'Edit', edit_article_path(@article) %> |
+      <%= link_to 'Back', articles_path %>                      
