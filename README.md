@@ -1,27 +1,5 @@
-# README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# rubyArticulosEM
+## By: Edwin Montoya - emontoya@eafit.edu.co
 
 1. Creating the Article Application
 
@@ -31,7 +9,7 @@ Things you may want to cover:
 
         $ rails server
 
-Open browser: http://localhost:3000
+* Open browser: http://localhost:3000
 
 3. Main page: "Hello World"
 
@@ -43,7 +21,7 @@ Open browser: http://localhost:3000
 
 4. Create REST routes        
 
-edit: config/routes.rb
+* edit: config/routes.rb
 
         Rails.application.routes.draw do
           get 'welcome/index'
@@ -53,10 +31,10 @@ edit: config/routes.rb
           root 'welcome#index'
         end
 
-run:    
+* run:    
           $ rails routes
 
-output:
+* output:
 
       Prefix Verb   URI Pattern                  Controller#Action
       welcome_index GET    /welcome/index(.:format)     welcome#index
@@ -74,5 +52,5 @@ output:
 
         $ rails generate controller Articles
 
-modify: app/controllers/articles_controller.rb
-create: app/views/articles/new.html.erb        
+* modify: app/controllers/articles_controller.rb
+* create: app/views/articles/new.html.erb        
