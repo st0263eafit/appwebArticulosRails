@@ -200,3 +200,37 @@ run:
           </tr>
         <% end %>
       </table>
+
+# 12. Adding links
+
+* View: Open app/views/welcome/index.html.erb
+
+      <h1>Hello World EAFIT</h1>
+      <%= link_to 'My Articles', controller: 'articles' %>  
+
+* View: app/views/articles/index.html.erb
+
+      <%= link_to 'New article', new_article_path %>    
+
+* View: app/views/articles/new.html.erb
+
+
+      <%= form_for :article, url: articles_path do |f| %>
+        ...
+      <% end %>
+
+      <%= link_to 'Back', articles_path %>
+
+* View: app/views/articles/show.html.erb
+
+      <p>
+        <strong>Title:</strong>
+        <%= @article.title %>
+      </p>
+
+      <p>
+        <strong>Text:</strong>
+        <%= @article.text %>
+      </p>
+
+      <%= link_to 'Back', articles_path %>      
