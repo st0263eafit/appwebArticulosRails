@@ -109,3 +109,20 @@
           end
         end
       end
+
+# 8. Running a Migration
+
+run:
+
+    $ rails db:migrate
+
+# 9. Saving data in the controller
+
+* Open app/controllers/articles_controller.rb
+
+      def create
+        @article = Article.new(params[:article])
+
+        @article.save
+        redirect_to @article
+      end    
