@@ -344,3 +344,80 @@ View: add 'delete' link to app/views/articles/index.html.erb
       <td><%= link_to 'Delete', article_path(article), method: :delete,
               data: { confirm: 'Are you sure?' } %></td>
       ...
+
+# 20. Deploy the Article Web App on Linux Centos 7.x (test or production)
+
+* references:
+
+      https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-ruby-on-rails-application-on-centos-7
+
+
+* Connect remote server: (user1 is a sudo user)
+
+      local$ ssh user1@10.131.137.236
+      Password: *****
+
+      user1@test$
+
+* verify and install rvm, ruby, rails, postgres and nginx
+
+* install rvm (https://rvm.io/rvm/install)
+
+        user1@test$ gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+
+        user1@test$ \curl -sSL https://get.rvm.io | bash
+
+* reopen terminal app:
+
+        user1@test$ exit
+
+        local$ ssh user1@10.131.137.236
+        Password: *****
+
+* install ruby 2.4.1
+
+        user1@test$ rvm list known
+        user1@test$ rvm install 2.4.1
+
+* install rails
+
+        user1@test$ gem install rails
+
+* install postgres:
+
+        user1@test$ sudo yum install -y postgresql-server postgresql-contrib postgresql-devel
+        Password: *****
+
+        user1@test$ sudo postgresql-setup initdb
+
+        user1@test$ sudo vi /var/lib/pgsql/data/pg_hba.conf
+
+        original:
+
+        host    all             all             127.0.0.1/32            ident
+        host    all             all             ::1/128                 ident
+
+        updated:
+
+        host    all             all             127.0.0.1/32            md5
+        host    all             all             ::1/128                 md5
+
+* run postgres:
+
+        user1@test$ sudo systemctl start postgresql
+        user1@test$ sudo systemctl enable postgresql
+
+* Create Database User:
+
+        user1@test$ sudo su - postgres
+
+        user1@test$ createuser -s pguser
+
+        user1@test$ psql
+
+        postgres=# \password pguser
+        Enter new password: changeme
+
+        postgres=# \q
+
+        user1@test$ exit
