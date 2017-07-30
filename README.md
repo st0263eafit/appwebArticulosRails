@@ -3,17 +3,17 @@
 
 # 1. Creating the Article Application
 
-        $ rails article blog
+        user1@dev$ rails new rubyArticulosEM
 
 # 2. Starting up the WebApp Server
 
-        $ rails server
+        user1@dev$ rails server
 
 * Open browser: http://localhost:3000
 
 # 3. Main page: "Hello World"
 
-        $ rails generate controller Welcome index
+        user1@dev$ rails generate controller Welcome index
 
         edit:
         app/views/welcome/index.html.erb
@@ -32,7 +32,7 @@
         end
 
 * run:    
-        $ rails routes
+        user1@dev$ rails routes
 
 * output:
 
@@ -50,7 +50,7 @@
 
 # 5. Generate controller for 'articles' REST Services
 
-        $ rails generate controller Articles
+        user1@dev$ rails generate controller Articles
 
 * modify: app/controllers/articles_controller.rb
 * create: app/views/articles/new.html.erb    
@@ -95,7 +95,7 @@
 
 # 7. Creating the Article model
 
-      $ rails generate model Article title:string text:text
+      user1@dev$ rails generate model Article title:string text:text
 
 * look db/migrate/YYYYMMDDHHMMSS_create_articles.rb:
 
@@ -114,7 +114,43 @@
 
 run:
 
-    $ rails db:migrate
+    user1@dev$ rails db:migrate
+
+## include postgresql in test and production environment:
+
+(Warning: install postgresql server on host)
+
+* Modify Gemfile
+
+      # Use Postgresql as the database for Active Record
+      gem 'pg'
+
+* Modify config/database.yml:
+
+      test:
+          adapter: postgresql
+          database: articulosem_test
+          user: pguser
+          password: changeme
+          host: localhost
+          port: 5432
+          pool: 5
+          pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+          timeout: 5000
+
+      production:
+          adapter: postgresql
+          database: articulosem
+          user: pguser
+          password: changeme
+          host: localhost
+          port: 5432
+          pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+          timeout: 5000    
+
+* Drop, Create and migrate new database:
+
+          user1@dev$ rake db:drop db:create db:migrate
 
 # 9. Saving data in the controller
 
@@ -347,6 +383,8 @@ View: add 'delete' link to app/views/articles/index.html.erb
 
 # 20. Deploy the Article Web App on Linux Centos 7.x (test or production)
 
+## Install ruby and rails
+
 * references:
 
       https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-ruby-on-rails-application-on-centos-7
@@ -383,7 +421,7 @@ View: add 'delete' link to app/views/articles/index.html.erb
 
         user1@test$ gem install rails
 
-* install postgres:
+## install postgres:
 
         user1@test$ sudo yum install -y postgresql-server postgresql-contrib postgresql-devel
         Password: *****
@@ -421,3 +459,25 @@ View: add 'delete' link to app/views/articles/index.html.erb
         postgres=# \q
 
         user1@test$ exit
+
+## Setup RAILS_ENV and PORT (3000 for dev, 4000 for testing or 5000 for production)
+
+        user1@test$ export RAILS_ENV=test
+        user1@test$ export PORT=4000
+
+## open PORT on firewalld service:
+
+        user1@test$ sudo firewall-cmd --zone=public --add-port=4000/tcp --permanent
+        user1@test$ sudo firewall-cmd --reload
+
+## clone de git repo, install and run:
+
+        user1@test$ mkdir apps
+        user1@test$ cd apps
+        user1@test$ git clone https://github.com/st0263eafit/rubyArticulosEM.git
+        user1@test$ cd rubyArticulosEM
+        user1@test$ bundle install
+        user1@test$ rake db:drop db:create db:migrate
+        user1@test$ export RAILS_ENV=test
+        user1@test$ export PORT=4000
+        user1@test$ rails server
