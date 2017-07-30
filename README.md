@@ -512,14 +512,21 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
 
 * summary:
 
-        1. clone the repo to /var/www/myapp/rubyArticulosEM
-        2. bundle:
+        - clone the repo to /var/www/myapp/rubyArticulosEM
 
         user1@prod$ cd /var/www/myapp/rubyArticulosEM
 
         user1@prod$ bundle install --deployment --without development test
 
-        user1@prod$ bundle exec assets:precompile db:migrate RAILS_ENV=production
+        - Configure database.yml and secrets.yml:
+
+        user1@prod$ bundle exec rake secret
+        user1@prod$ vim config/secrets.yml
+
+        production:
+          secret_key_base: the value that you copied from 'rake secret'
+
+        user1@prod$ bundle exec rake assets:precompile db:migrate RAILS_ENV=production
 
 * add articles.conf to /etc/httpd/conf.d/myapp.conf:
 
