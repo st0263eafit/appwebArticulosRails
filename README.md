@@ -481,3 +481,67 @@ View: add 'delete' link to app/views/articles/index.html.erb
         user1@test$ export RAILS_ENV=test
         user1@test$ export PORT=4000
         user1@test$ rails server
+
+# SETUP Centos 7.1 in production.
+
+* With Apache Web Server and Passenger.
+
+        user1@prod$ sudo yum install httpd
+        user1@prod$ sudo systemctl enable httpd
+        user1@prod$ sudo systemctl start httpd
+
+        test in a browser: http://10.131.137.236
+
+* install YARN (https://yarnpkg.com/en/docs/install) (for rake assets:precompile):  
+
+* Install module Passenger for Rails in HTTPD (https://www.phusionpassenger.com/library/install/apache/install/oss/el7/):
+
+        user1@prod$ gem install passenger
+
+        user1@prod$ passenger-install-apache2-module
+
+when finish the install module, add to /etc/http/conf/httpd.conf:
+
+        LoadModule passenger_module /home/user1/.rvm/gems/ruby-2.4.1/gems/passenger-5.1.6/buildout/apache2/mod_passenger.so
+        <IfModule mod_passenger.c>
+          PassengerRoot /home/user1/.rvm/gems/ruby-2.4.1/gems/passenger-5.1.6
+          PassengerDefaultRuby /home/user1/.rvm/gems/ruby-2.4.1/wrappers/ruby
+        </IfModule>
+
+* configure the ruby rails app to use passenger (https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/apache/oss/el7/deploy_app.html):
+
+* summary:
+
+        1. clone the repo to /var/www/myapp/rubyArticulosEM
+        2. bundle:
+
+        user1@prod$ cd /var/www/myapp/rubyArticulosEM
+
+        user1@prod$ bundle install --deployment --without development test
+
+        user1@prod$ bundle exec assets:precompile db:migrate RAILS_ENV=production
+
+* add articles.conf to /etc/httpd/conf.d/myapp.conf:
+
+        <VirtualHost *:80>
+            ServerName 10.131.137.236
+
+            # Tell Apache and Passenger where your app's 'public' directory is
+            DocumentRoot /var/www/myapp/rubyArticulosEM/public
+
+            PassengerRuby /home/user1/.rvm/gems/ruby-2.4.1/wrappers/ruby
+
+            # Relax Apache security settings
+            <Directory /var/www/myapp/rubyArticulosEM/public>
+                Allow from all
+                Options -MultiViews
+                # Uncomment this if you're on Apache >= 2.4:
+                #Require all granted
+            </Directory>
+        </VirtualHost>
+
+* restart httpd
+
+        user1@prod$ sudo systemctl restart httpd
+
+        test: http://10.131.137.239
