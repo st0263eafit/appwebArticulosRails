@@ -1,17 +1,19 @@
 # rubyArticulosEM
 ## By: Edwin Montoya - emontoya@eafit.edu.co
 
-# 1. Creating the Article Application
+# DEVELOPMENT::
+
+## 1. Creating the Article Application
 
         user1@dev$ rails new rubyArticulosEM
 
-# 2. Starting up the WebApp Server
+## 2. Starting up the WebApp Server
 
         user1@dev$ rails server
 
 * Open browser: http://localhost:3000
 
-# 3. Main page: "Hello World"
+## 3. Main page: "Hello World"
 
         user1@dev$ rails generate controller Welcome index
 
@@ -19,16 +21,18 @@
         app/views/welcome/index.html.erb
         config/routes.rb
 
-# 4. Create REST routes        
+## 4. Create REST routes        
 
 * edit: config/routes.rb
-
+      # scope '/' -> run http://server:3000 (native) or http://server (inverse proxy or passenger)
+      # scope '/prefix_url' -> run http://server:3000/prefix_url or http://server/prefix_url (inverse proxy or passenger).
+      # ej: http://10.131.137.236/rubyArticulos
         Rails.application.routes.draw do
-          get 'welcome/index'
-
-          resources :articles
-
-          root 'welcome#index'
+          scope '/' do
+            get 'welcome/index'
+            resources :articles
+            root 'welcome#index'
+          end
         end
 
 * run:    
@@ -38,17 +42,17 @@
 
       Prefix Verb   URI Pattern                  Controller#Action
       welcome_index GET    /welcome/index(.:format)     welcome#index
-      articles GET    /articles(.:format)          articles#index
-             POST   /articles(.:format)          articles#create
-      new_article GET    /articles/new(.:format)      articles#new
-      edit_article GET    /articles/:id/edit(.:format) articles#edit
-      article GET    /articles/:id(.:format)      articles#show
-             PATCH  /articles/:id(.:format)      articles#update
-             PUT    /articles/:id(.:format)      articles#update
-             DELETE /articles/:id(.:format)      articles#destroy
-        root GET    /                            welcome#index
+          articles  GET    /articles(.:format)          articles#index
+                    POST   /articles(.:format)          articles#create
+      new_article   GET    /articles/new(.:format)      articles#new
+      edit_article  GET    /articles/:id/edit(.:format) articles#edit
+        article     GET    /articles/:id(.:format)      articles#show
+                    PATCH  /articles/:id(.:format)      articles#update
+                    PUT    /articles/:id(.:format)      articles#update
+                    DELETE /articles/:id(.:format)      articles#destroy
+              root  GET    /                            welcome#index
 
-# 5. Generate controller for 'articles' REST Services
+## 5. Generate controller for 'articles' REST Services
 
         user1@dev$ rails generate controller Articles
 
@@ -57,7 +61,7 @@
 
 * run: http://localhost:3000/articles/new    
 
-# 6. Create a FORM HTML to enter data for an article
+## 6. Create a FORM HTML to enter data for an article
 
 * edit: app/views/articles/new.html.erb:
 
@@ -93,7 +97,7 @@
           end
         end     
 
-# 7. Creating the Article model
+## 7. Creating the Article model
 
       user1@dev$ rails generate model Article title:string text:text
 
@@ -110,7 +114,7 @@
         end
       end
 
-# 8. Running a Migration
+## 8. Running a Migration
 
 run:
 
@@ -152,7 +156,7 @@ run:
 
           user1@dev$ rake db:drop db:create db:migrate
 
-# 9. Saving data in the controller
+## 9. Saving data in the controller
 
 * Open app/controllers/articles_controller.rb
 
@@ -181,7 +185,7 @@ run:
           params.require(:article).permit(:title, :text)
         end      
 
-# 10. Showing Articles
+## 10. Showing Articles
 
 * Route:
 
@@ -381,7 +385,9 @@ View: add 'delete' link to app/views/articles/index.html.erb
               data: { confirm: 'Are you sure?' } %></td>
       ...
 
-# 20. Deploy the Article Web App on Linux Centos 7.x (test or production)
+## DEPLOYMENT ON DCA FOR TESTING
+
+# 1. Deploy the Article Web App on Linux Centos 7.x (test)
 
 ## Install ruby and rails
 
@@ -482,9 +488,9 @@ View: add 'delete' link to app/views/articles/index.html.erb
         user1@test$ export PORT=4000
         user1@test$ rails server
 
-# SETUP Centos 7.1 in production.
+# SETUP Centos 7.1 in production With Apache Web Server and Passenger.
 
-* With Apache Web Server and Passenger.
+* Install Apache Web Server
 
         user1@prod$ sudo yum install httpd
         user1@prod$ sudo systemctl enable httpd
@@ -492,7 +498,7 @@ View: add 'delete' link to app/views/articles/index.html.erb
 
         test in a browser: http://10.131.137.236
 
-* install YARN (https://yarnpkg.com/en/docs/install) (for rake assets:precompile):  
+* Install YARN (https://yarnpkg.com/en/docs/install) (for rake assets:precompile):  
 
 * Install module Passenger for Rails in HTTPD (https://www.phusionpassenger.com/library/install/apache/install/oss/el7/):
 
@@ -508,7 +514,7 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
           PassengerDefaultRuby /home/user1/.rvm/gems/ruby-2.4.1/wrappers/ruby
         </IfModule>
 
-* configure the ruby rails app to use passenger (https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/apache/oss/el7/deploy_app.html):
+* Configure the ruby rails app to use passenger (https://www.phusionpassenger.com/library/walkthroughs/deploy/ruby/ownserver/apache/oss/el7/deploy_app.html):
 
 * summary:
 
@@ -552,3 +558,75 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
         user1@prod$ sudo systemctl restart httpd
 
         test: http://10.131.137.239
+
+# SETUP Centos 7.1 in production With NGINX with inverse proxy
+
+* Install nginx
+
+        user1@prod$ sudo yum install nginx
+        user1@prod$ sudo systemctl enable nginx
+        user1@prod$ sudo systemctl start nginx
+
+        test in a browser: http://10.131.137.236
+
+* Rails app is running on 3000 port
+
+        user1@prod$ cd rubyArticulosEM
+        user1@prod$ export RAILS_ENV=test
+        user1@prod$ export PORT=3000
+        user1@prod$ rails server
+        => Booting Puma
+        => Rails 5.1.2 application starting in test on http://0.0.0.0:3000
+        => Run `rails server -h` for more startup options
+        Puma starting in single mode...
+        * Version 3.9.1 (ruby 2.4.1-p111), codename: Private Caller
+        * Min threads: 5, max threads: 5
+        * Environment: test
+        * Listening on tcp://0.0.0.0:3000
+        Use Ctrl-C to stop
+
+* Warning: this app must as a service on Centos.
+
+* Configure /etc/nginx/nginx.conf for Inverse Proxy
+
+      App from browser: http://10.131.137.236/rubyArticulos
+
+      // /etc/nginx/nginx.conf
+
+      location /rubyArticulos/ {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header HOST $http_host;
+        proxy_set_header X-NginX-Proxy true;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_redirect off;
+      }
+
+* MODIFY THE APPLICATION IN ORDER TO CONFIGURE THE NEW URI ('/rubyArticulos'):
+
+      // modify config/routes.rb
+      # scope '/' -> run http://server:3000 (native) or http://server (inverse proxy or passenger)
+      # scope '/prefix_url' -> run http://server:3000/prefix_url or http://server/prefix_url (inverse proxy or passenger).
+      # ej: http://10.131.137.236/rubyArticulos
+      Rails.application.routes.draw do
+        scope '/rubyArticulos' do
+          get 'welcome/index'
+          resources :articles
+          root 'welcome#index'
+        end
+      end
+
+* Show new routes and controllers:
+
+      user1@prod$ rails routes
+
+          Prefix    Verb   URI Pattern                                Controller#Action
+    welcome_index   GET    /rubyArticulos/welcome/index(.:format)     welcome#index
+        articles    GET    /rubyArticulos/articles(.:format)          articles#index
+                    POST   /rubyArticulos/articles(.:format)          articles#create
+        new_article GET    /rubyArticulos/articles/new(.:format)      articles#new
+    edit_article    GET    /rubyArticulos/articles/:id/edit(.:format) articles#edit
+        article     GET    /rubyArticulos/articles/:id(.:format)      articles#show
+                    PATCH  /rubyArticulos/articles/:id(.:format)      articles#update
+                    PUT    /rubyArticulos/articles/:id(.:format)      articles#update
+                    DELETE /rubyArticulos/articles/:id(.:format)      articles#destroy
+              root  GET    /rubyArticulos(.:format)                   welcome#index
