@@ -619,14 +619,14 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
 
       user1@prod$ rails routes
 
-          Prefix    Verb   URI Pattern                                Controller#Action
-    welcome_index   GET    /rubyArticulos/welcome/index(.:format)     welcome#index
-        articles    GET    /rubyArticulos/articles(.:format)          articles#index
-                    POST   /rubyArticulos/articles(.:format)          articles#create
-        new_article GET    /rubyArticulos/articles/new(.:format)      articles#new
-    edit_article    GET    /rubyArticulos/articles/:id/edit(.:format) articles#edit
-        article     GET    /rubyArticulos/articles/:id(.:format)      articles#show
-                    PATCH  /rubyArticulos/articles/:id(.:format)      articles#update
-                    PUT    /rubyArticulos/articles/:id(.:format)      articles#update
-                    DELETE /rubyArticulos/articles/:id(.:format)      articles#destroy
-              root  GET    /rubyArticulos(.:format)                   welcome#index
+            Prefix    Verb   URI Pattern                                Controller#Action
+            welcome_index GET    /rubyArticulos/welcome/index(.:format)     welcome#index
+                 articles GET    /rubyArticulos/articles(.:format)          articles#index
+                          POST   /rubyArticulos/articles(.:format)          articles#create
+              new_article GET    /rubyArticulos/articles/new(.:format)      articles#new
+             edit_article GET    /rubyArticulos/articles/:id/edit(.:format) articles#edit
+                  article GET    /rubyArticulos/articles/:id(.:format)      articles#show
+                          PATCH  /rubyArticulos/articles/:id(.:format)      articles#update
+                          PUT    /rubyArticulos/articles/:id(.:format)      articles#update
+                          DELETE /rubyArticulos/articles/:id(.:format)      articles#destroy
+                    root  GET    /rubyArticulos(.:format)                   welcome#index
