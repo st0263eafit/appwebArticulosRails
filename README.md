@@ -5,7 +5,7 @@
 
 ## 1. Creating the Article Application
 
-        user1@dev$ rails new rubyArticulosEM
+        user1@dev$ rails new appwebArticulosRails
 
 ## 2. Starting up the WebApp Server
 
