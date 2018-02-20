@@ -480,8 +480,8 @@ View: add 'delete' link to app/views/articles/index.html.erb
 
         user1@test$ mkdir apps
         user1@test$ cd apps
-        user1@test$ git clone https://github.com/st0263eafit/rubyArticulosEM.git
-        user1@test$ cd rubyArticulosEM
+        user1@test$ git clone https://github.com/st0263eafit/appwebArticulosRails.git
+        user1@test$ cd appwebArticulosRails
         user1@test$ bundle install
         user1@test$ rake db:drop db:create db:migrate
         user1@test$ export RAILS_ENV=test
@@ -518,9 +518,9 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
 
 * summary:
 
-        - clone the repo to /var/www/myapp/rubyArticulosEM
+        - clone the repo to /var/www/myapp/appwebArticulosRails
 
-        user1@prod$ cd /var/www/myapp/rubyArticulosEM
+        user1@prod$ cd /var/www/myapp/appwebArticulosRails
 
         user1@prod$ bundle install --deployment --without development test
 
@@ -540,12 +540,12 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
             ServerName 10.131.137.236
 
             # Tell Apache and Passenger where your app's 'public' directory is
-            DocumentRoot /var/www/myapp/rubyArticulosEM/public
+            DocumentRoot /var/www/myapp/appwebArticulosRails/public
 
             PassengerRuby /home/user1/.rvm/gems/ruby-2.4.1/wrappers/ruby
 
             # Relax Apache security settings
-            <Directory /var/www/myapp/rubyArticulosEM/public>
+            <Directory /var/www/myapp/appwebArticulosRails/public>
                 Allow from all
                 Options -MultiViews
                 # Uncomment this if you're on Apache >= 2.4:
@@ -571,7 +571,7 @@ when finish the install module, add to /etc/http/conf/httpd.conf:
 
 * Rails app is running on 3000 port
 
-        user1@prod$ cd rubyArticulosEM
+        user1@prod$ cd appwebArticulosRails
         user1@prod$ export RAILS_ENV=test
         user1@prod$ export PORT=3000
         user1@prod$ rails server
