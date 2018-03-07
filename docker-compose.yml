@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: 'pguser'
+      POSTGRES_PASSWORD: 'test123'
+    volumes:
+      - /tmp/postgres:/var/lib/postgresql/data
+  web:
+    build: .
+    command: rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/RailsApp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
