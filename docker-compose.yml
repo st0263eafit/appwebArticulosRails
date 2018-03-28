@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: 'test123'
     volumes:
       - /tmp/postgres:/var/lib/postgresql/data
-  web:
+  app:
     build: .
     command: rails s -p 3000 -b '0.0.0.0'
     volumes:
@@ -17,3 +17,11 @@ services:
       - "3000:3000"
     depends_on:
       - db
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - app      
