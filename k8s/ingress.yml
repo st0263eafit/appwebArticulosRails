@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: articulosrails-ingress
+  namespace: emontoya
+spec:
+  rules:
+    - host: emontoya.dis.eafit.edu.co
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: articulos-webapp-service
+              servicePort: 80

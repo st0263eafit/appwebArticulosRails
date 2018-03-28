@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: haproxy-ingress
+  namespace: emontoya
+spec:
+  rules:
+    - host: emontoya.dis.eafit.edu.co
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: haproxy-service
+              servicePort: 80
