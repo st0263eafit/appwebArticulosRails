@@ -1,5 +1,6 @@
-# rubyArticulosEM
+# Ruby on Rails: Articles example
 ## By: Edwin Montoya - emontoya@eafit.edu.co
+## 2018-1
 
 # DEPLOYMENT ON DOCKER FOR TESTING in DCA  (10.131.137.x) or Dev
 
