@@ -10,9 +10,9 @@ services:
       - /tmp/postgres:/var/lib/postgresql/data
   app:
     build: .
-    command: rails s -p 3000 -b '0.0.0.0' RAILS_ENV=test
+    command: rails s -p 3000 -b '0.0.0.0'
     volumes:
-      - .:/railsApp
+      - .:/myapp
     ports:
       - "3000:3000"
     depends_on:
