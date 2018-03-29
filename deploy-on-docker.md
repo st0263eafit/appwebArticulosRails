@@ -44,12 +44,83 @@ Download the official docker installer  [Docker](https://docs.docker.com/docker-
       $ git clone https://github.com/st0263eafit/appwebArticulosRails.git
       $ cd appwebArticulosRails
 
+## Con Dockers independientes:
+
+1. Adquirir el contenedor oficial de mongo:
+
+            $ docker pull postgres
+            $ docker run --name db -p 5432:5432 -e POSTGRES_USER=pguser -e POSTGRES_PASSWORD=123  -v $(pwd)/postgresdata:/var/lib/postgresql/data -d postgres:latest
+
+2. Construir el contenedor nodejs+app:
+
+            $ cd appwebArticulosRails
+            $ docker image build -t <docker_user>/artrails:<version> .
+            $ docker image push <docker_user>/artrails:<version>
+            $ docker run --name app --link postgres-server:postgres -p 3000:3000 -d <docker_user>/artnode:<version>
+
+3. Adquirir el contenedor oficial de nginx:
+
+            $ docker pull nginx
+            $ docker run --name webapp --link nodeapp:node -p 80:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro -d nginx:latest
+
+4. comandos docker utiles:
+
+* lista imagenes:
+
+      $ docker image ls
+
+* borrar una imagen:
+
+      $ docker image rm <image_id>
+
+
+* lista contenedores en ejecución: 
+
+      $ docker container ls
+      $ docker ps
+  
+* lista todos los contenedores estén o no ejecutando:
+
+      $ docker container ls -a
+      $ docker ps -a
+
+* para la ejecución de un contenedor:
+
+      $ docker container stop <container_id> 
+
+* borrar un contenedor, despues que esta detenido:
+
+      $ docker container rm <container_id> 
+
+* ver los logs de un contenedor:
+
+      $ docker container logs <container_id> 
+
 #### Execute docker-compose
 
-    $ docker-compose up
+      $ sudo /usr/local/bin/docker-compose build
+
+      $ sudo /usr/local/bin/docker-compose up
 
 Open Browser and connect to the URL: [http://hostname](http://hostname) change the hostname (To NGINX port 80)
 
 Open Browser and connect to the URL: [hostname:3000](hostname:3000) change the hostname (To Rails Puma Server port 3000)
 
-@20181            
+## Configuración con HAPROXY en Docker, y apps en DOCKER:
+
+Escenario: Tenemos 3 maquinas:
+
+### maq1: ej: 10.131.137.204, con docker y docker-compose instalado, y corriendo la app (nginx, rails, postgress).
+
+### maq2: ej: 10.131.137.183, con docker y docker-compose instalado, y corriendo la app (nginx, rails, postgress).
+
+utilizaremos balanceador de carda: HAPROXY en docker, en una maquina3:
+
+### maq3: ej: 10.131.137.50, con docker instalado.
+
+en maq3, se ejecuta:
+
+      $ sudo docker pull haproxy:1.8.5
+      $ sudo docker run -d --name myhaproxy -p 80:80 -v $(pwd)/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro haproxy:1.8.5
+
+en archivo de configuración [haproxy.cfg](haproxy.cfg) en la raiz de este repo.           
