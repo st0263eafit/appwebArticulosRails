@@ -49,19 +49,19 @@ Download the official docker installer  [Docker](https://docs.docker.com/docker-
 1. Adquirir el contenedor oficial de mongo:
 
             $ docker pull postgres
-            $ docker run --name db -p 5432:5432 -e POSTGRES_USER=pguser -e POSTGRES_PASSWORD=123  -v $(pwd)/postgresdata:/var/lib/postgresql/data -d postgres:latest
+            $ docker run --name db -p 5432:5432 -e POSTGRES_USER=pguser -e POSTGRES_PASSWORD=123  -v /tmp/postgresdata:/var/lib/postgresql/data -d postgres:latest
 
-2. Construir el contenedor nodejs+app:
+2. Construir el contenedor rails+app:
 
             $ cd appwebArticulosRails
             $ docker image build -t <docker_user>/artrails:<version> .
             $ docker image push <docker_user>/artrails:<version>
-            $ docker run --name app --link postgres-server:postgres -p 3000:3000 -d <docker_user>/artnode:<version>
+            $ docker run --name app --link db:postgres -p 3000:3000 -d <docker_user>/artrails:<version>
 
 3. Adquirir el contenedor oficial de nginx:
 
             $ docker pull nginx
-            $ docker run --name webapp --link nodeapp:node -p 80:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro -d nginx:latest
+            $ docker run --name webapp --link app:rails -p 80:80 -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro -d nginx:latest
 
 4. comandos docker utiles:
 

@@ -10,8 +10,8 @@
 
 En el directorio raiz del código descargado ejecutar:
 
-      docker image build -t <docker_user>/artnode:<version> .
-      docker image push <docker_user>/artnode:<version>
+      docker image build -t <docker_user>/artrails:<version> .
+      docker image push <docker_user>/artrails:<version>
 
 cambie el <docker_user> por el propio.
 coloquele version en <version>, puede ser 1.0

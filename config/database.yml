@@ -30,7 +30,7 @@ production:
     adapter:  postgresql
     database: articulosem
     user:     pguser
-    password: changeme
+    password: test123
     host:     db
     port:     5432
     pool:     <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>

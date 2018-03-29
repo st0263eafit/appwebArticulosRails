@@ -7,4 +7,5 @@ COPY Gemfile /railsApp/Gemfile
 COPY Gemfile.lock /railsApp/Gemfile.lock
 RUN bundle install
 COPY . /railsApp
-RUN rake db:migrate
+RUN rake db:migrate RAILS_ENV=test
+CMD ["rails", "server", "--binding", "0.0.0.0", "RAILS_ENV=test"]
