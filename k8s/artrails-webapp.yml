@@ -1,0 +1,47 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: artrails-app-deployment
+  namespace: emontoya
+
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: artrails-webapp
+    spec:
+      containers:
+      - name: artrails-webapp
+        image: emontoya/artrails:1.0
+        args: ["rails s -p 3000 -b 0.0.0.0"]
+        env:
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: "db-user"
+              key: "username"
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: "db-user-pass"
+              key: "password" 
+
+        ports:
+        - name: rails-port
+          containerPort: 3000
+      - name: api-nginx
+        image: nginx:1.13.8
+        ports:
+        - name: http-port
+          containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: config-volume
+        configMap:
+          name: artrails-nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf
