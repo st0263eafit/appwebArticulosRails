@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: haproxy-deployment
+  namespace: emontoya
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: haproxy-app
+    spec:
+      containers:
+      - name: myhaproxy
+        image: haproxy:1.8.5
+        ports:
+        - name: http-port
+          containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /usr/local/etc/haproxy/haproxy.cfg
+      volumes:
+      - name: config-volume
+        configMap:
+          name: haproxy-config
+          items:
+          - key: haproxy.conf
+            path: haproxy.conf

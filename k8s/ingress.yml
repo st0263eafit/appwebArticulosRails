@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: artrails-ingress
+  namespace: mbaquer6
+spec:
+  rules:
+    - host: mbaquer6.dis.eafit.edu.co
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: artrails-webapp-service
+              servicePort: 80

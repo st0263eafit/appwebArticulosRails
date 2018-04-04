@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: artrails-webapp-service
+  namespace: mbaquer6
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: artrails-webapp
+  type: NodePort

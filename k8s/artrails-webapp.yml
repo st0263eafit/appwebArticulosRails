@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: artrails-app-deployment
+  namespace: mbaquer6
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: artrails-webapp
+    spec:
+      containers:
+      - name: artrails
+        image: mbaquer6/artrails:1.1
+        ports:
+        - name: rails-port
+          containerPort: 3000
+      - name: api-nginx
+        image: nginx:1.13.8
+        ports:
+        - name: http-port
+          containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/nginx/conf.d
+      volumes:
+      - name: config-volume
+        configMap:
+          name: artrails-nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf

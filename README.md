@@ -1,7 +1,8 @@
-# rubyArticulosEM
+# Ruby On Rails Articulos 
 ## By: Edwin Montoya - emontoya@eafit.edu.co
+## 20181
 
-# DEVELOPMENT::
+# DEVELOPMENT:
 
 ## 1. Creating the Article Application
 
